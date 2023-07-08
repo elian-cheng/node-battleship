@@ -1,31 +1,46 @@
-# RSSchool NodeJS websocket task template
-> Static http server and base task packages. 
-> By default WebSocket client tries to connect to the 3000 port.
+# Node-battleship
 
-## Installation
-1. Clone/download repo
-2. `npm install`
+Battleship game backend using websocket with user interface in the folder './front'.
+[Task description](https://github.com/AlreadyBored/nodejs-assignments/blob/main/assignments/battleship/assignment.md)
 
-## Usage
-**Development**
+## How to install
 
-`npm run start:dev`
+To run this application you have to do the following steps:
 
-* App served @ `http://localhost:8181` with nodemon
+1.  Clone this repository
 
-**Production**
+```bash
+ git clone https://github.com/elian-cheng/node-battleship.git
+```
 
-`npm run start`
+2.  Move to the cloned repo
 
-* App served @ `http://localhost:8181` without nodemon
+```bash
+ cd node-battleship
+```
 
----
+3.  Switch the branch to `develop`
 
-**All commands**
+```bash
+git checkout develop
+```
 
-Command | Description
---- | ---
-`npm run start:dev` | App served @ `http://localhost:8181` with nodemon
-`npm run start` | App served @ `http://localhost:8181` without nodemon
+4.  Install dependencies
 
-**Note**: replace `npm` with `yarn` in `package.json` if you use yarn.
+```bash
+npm install
+```
+
+## Commands
+
+To start the application in the development mode
+
+```bash
+npm run start:dev
+```
+
+To start the application in the production mode
+
+```bash
+npm run start:prod
+```
