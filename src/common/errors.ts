@@ -1,11 +1,12 @@
 import Action from './action';
 
-const enum Errors {
+export const enum Errors {
   NOT_FOUND = 'Entity was not found',
   NO_PLAYER = 'Requested player was not found',
   NO_ROOM = 'Requested room was not found',
   INVALID_AUTH_CREDENTIALS = 'Username or password is invalid',
   INVALID_ADD_PLAYER_ACTION = 'Unable to add player to room',
+  DEFAULT_MESSAGE = '',
 }
 
 export class AppError extends Error {

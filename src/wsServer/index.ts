@@ -1,22 +1,15 @@
-import { WebSocketServer } from 'ws';
+import ActionController from '../actionController';
+import App from '../app';
 
-const createWsServer = (port = 3000) => {
-  const wss = new WebSocketServer({ port });
-
-  wss.on('connection', function connection(ws) {
-    ws.on('error', console.error);
-
-    ws.on('message', function message(data) {
-      console.log('received: %s', data);
-    });
-
-    ws.send('something');
-  });
+const createWsServer = () => {
+  const actionController = new ActionController();
+  const app = new App({ actionController });
+  return app;
 };
 
 const wsServer = {
   listen: (port: number) => {
-    createWsServer(port);
+    createWsServer().listen(port);
   },
 };
 
