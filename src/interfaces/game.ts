@@ -12,7 +12,7 @@ export interface IShip {
     y: number;
   };
   direction: boolean;
-  type: string;
+  type: 'small' | 'medium' | 'large' | 'huge';
   length: number;
 }
 
@@ -21,4 +21,17 @@ export const enum Attack {
   KILLED = 'killed',
   SHOT = 'shot',
   ERROR = 'error',
+}
+
+export const enum Square {
+  EMPTY = 0,
+  ERROR = 1,
+  OCCUPIED = 2,
+  SHOT = 3,
+  KILLED = 4,
+}
+
+export interface IPosition {
+  x: number;
+  y: number;
 }
