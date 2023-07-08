@@ -6,7 +6,7 @@ export const enum Errors {
   NO_ROOM = 'Requested room was not found',
   INVALID_AUTH_CREDENTIALS = 'Username or password is invalid',
   INVALID_ADD_PLAYER_ACTION = 'Unable to add player to room',
-  DEFAULT_MESSAGE = '',
+  DEFAULT_MESSAGE = 'Server error',
 }
 
 export class AppError extends Error {

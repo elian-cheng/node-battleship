@@ -1,11 +1,10 @@
 import WebSocket, { WebSocketServer } from 'ws';
 import { randomUUID } from 'crypto';
-import ActionController from './actionController';
+import ActionController from './controllers/actionController';
 import { IMessage, IWebSocket } from './interfaces/common';
 import Action from './common/action';
 import { AppError, Errors } from './common/errors';
-
-interface IAppConstructorProps {
+interface IAppProps {
   actionController: ActionController;
 }
 
@@ -13,7 +12,7 @@ export default class App {
   private wsServer!: WebSocket.Server;
   private controller: ActionController;
 
-  constructor({ actionController }: IAppConstructorProps) {
+  constructor({ actionController }: IAppProps) {
     this.controller = actionController;
   }
 
@@ -42,6 +41,22 @@ export default class App {
         const { type, data } = this.parseActionMessage(payload.toString());
         console.log('Action type: %s', type);
         console.log('Data:', JSON.stringify(data));
+
+        try {
+          switch (type) {
+            case Action.PLAYER_AUTH: {
+              this.controller.authorizePlayer(ws, data);
+              break;
+            }
+
+            default: {
+              console.log('Action type does not exist');
+              break;
+            }
+          }
+        } catch (err) {
+          this.handleErrors(ws, err);
+        }
       });
 
       ws.on('close', () => {
