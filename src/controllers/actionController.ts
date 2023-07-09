@@ -3,17 +3,21 @@ import { IWebSocket } from '../interfaces/common';
 import { IPlayerAuth } from '../interfaces/player';
 import WebSocket from 'ws';
 import PlayerController from './playerController';
+import GameController from './gameController';
 
 interface IActionControllerProps {
   playerController: PlayerController;
+  gameController: GameController;
 }
 
 export default class ActionController {
   private wsServer!: WebSocket.Server;
   private playerController: PlayerController;
+  private gameController: GameController;
 
-  constructor({ playerController }: IActionControllerProps) {
+  constructor({ playerController, gameController }: IActionControllerProps) {
     this.playerController = playerController;
+    this.gameController = gameController;
   }
 
   public initWSServer(wsServer: WebSocket.Server) {
