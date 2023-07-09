@@ -46,9 +46,19 @@ export default class App {
           switch (type) {
             case Action.PLAYER_AUTH: {
               this.controller.authorizePlayer(ws, data);
+              this.controller.updateRoomsWinners();
               break;
             }
-
+            case Action.CREATE_ROOM: {
+              this.controller.createRoom(ws);
+              this.controller.updateRoomsWinners();
+              break;
+            }
+            case Action.ADD_PLAYER_TO_ROOM: {
+              this.controller.addPlayerToRoom(ws, data);
+              this.controller.updateRoomsWinners();
+              break;
+            }
             default: {
               console.log('Action type does not exist');
               break;

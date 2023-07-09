@@ -12,3 +12,4 @@ export interface IWebSocket extends WebSocket {
   gameId: number;
   playerId: number;
 }
+

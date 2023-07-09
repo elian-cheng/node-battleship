@@ -4,6 +4,8 @@ import { IPlayerAuth } from '../interfaces/player';
 import WebSocket from 'ws';
 import PlayerController from './playerController';
 import GameController from './gameController';
+import { AddPlayerToRoomError } from '../common/errors';
+import { IRoom } from '../interfaces/game';
 
 interface IActionControllerProps {
   playerController: PlayerController;
@@ -37,6 +39,33 @@ export default class ActionController {
       index: playerId,
       error: false,
       errorText: '',
+    });
+    ws.send(response);
+  }
+
+  public createRoom(ws: IWebSocket) {
+    const player = this.playerController.getPlayerById(ws.playerId);
+    ws.gameId = this.gameController.createGame(player);
+    const response = this.createResponse(Action.CREATE_GAME, {
+      idGame: ws.gameId,
+      idPlayer: ws.playerId,
+    });
+    ws.send(response);
+  }
+
+  public addPlayerToRoom(ws: IWebSocket, data: IRoom) {
+    const gameId = data.indexRoom;
+    const { playerId } = ws;
+    const game = this.gameController.findGame(gameId);
+    if (game.getTotalPlayersQuantity() === 2) {
+      throw new AddPlayerToRoomError();
+    }
+    const player = this.playerController.getPlayerById(playerId);
+    this.gameController.addPlayerToGame(gameId, player);
+    ws.gameId = gameId;
+    const response = this.createResponse(Action.CREATE_GAME, {
+      idGame: gameId,
+      idPlayer: playerId,
     });
     ws.send(response);
   }

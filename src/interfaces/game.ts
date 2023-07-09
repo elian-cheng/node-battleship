@@ -6,6 +6,9 @@ export interface IGameState {
   }[];
 }
 
+export interface IRoom {
+  indexRoom: number;
+}
 export interface IShip {
   position: {
     x: number;
