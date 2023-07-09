@@ -70,6 +70,23 @@ export default class ActionController {
     ws.send(response);
   }
 
+  public updateRoomsWinners(): void {
+    this.responseForAll(
+      this.createResponse(Action.UPDATE_WINNERS, [...this.playerController.getWinners()])
+    );
+    this.responseForAll(
+      this.createResponse(Action.UPDATE_ROOM, [...this.gameController.getGamesState()])
+    );
+  }
+
+  public responseForAll(response: string) {
+    this.wsServer.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(response);
+      }
+    });
+  }
+
   private createResponse(type: Action, data: object): string {
     return JSON.stringify({
       type,
