@@ -59,6 +59,10 @@ export default class App {
               this.controller.updateRoomsWinners();
               break;
             }
+            case Action.ADD_SHIPS: {
+              this.controller.addShips(ws, data);
+              break;
+            }
             default: {
               console.log('Action type does not exist');
               break;

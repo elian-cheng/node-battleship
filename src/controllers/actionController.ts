@@ -5,7 +5,7 @@ import WebSocket from 'ws';
 import PlayerController from './playerController';
 import GameController from './gameController';
 import { AddPlayerToRoomError } from '../common/errors';
-import { IRoom } from '../interfaces/game';
+import { IRoom, IShips } from '../interfaces/game';
 
 interface IActionControllerProps {
   playerController: PlayerController;
@@ -77,6 +77,40 @@ export default class ActionController {
     this.responseForAll(
       this.createResponse(Action.UPDATE_ROOM, [...this.gameController.getGamesState()])
     );
+  }
+
+  public addShips(ws: IWebSocket, data: IShips) {
+    const { ships } = data;
+    const { playerId, gameId } = ws;
+    this.gameController.addShips(gameId, playerId, ships);
+    if (this.gameController.canStart(gameId)) {
+      this.startGame(gameId);
+    }
+  }
+
+  public startGame(gameId: number) {
+    const game = this.gameController.findGame(gameId);
+    const { currentPlayerIdx, players, battlefield } = game;
+    {
+      const response = {
+        type: Action.START_GAME,
+        data: JSON.stringify({
+          ships: battlefield.get(players[0].playerId)?.getShips() || [],
+          currentPlayerIndex: currentPlayerIdx,
+        }),
+      };
+      players[0].ws.send(JSON.stringify(response));
+    }
+    {
+      const response = {
+        type: Action.START_GAME,
+        data: JSON.stringify({
+          ships: battlefield.get(players[1].playerId)?.getShips() || [],
+          currentPlayerIndex: currentPlayerIdx,
+        }),
+      };
+      players[1].ws.send(JSON.stringify(response));
+    }
   }
 
   public responseForAll(response: string) {

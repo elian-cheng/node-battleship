@@ -19,6 +19,11 @@ export interface IShip {
   length: number;
 }
 
+export interface IShips {
+  gameId: number;
+  ships: IShip[];
+}
+
 export const enum Attack {
   MISSED = 'miss',
   KILLED = 'killed',
