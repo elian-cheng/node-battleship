@@ -1,9 +1,10 @@
-import { Attack, IGameState, IShip } from '../interfaces/game';
+import { IGameState, IShip } from '../interfaces/game';
 import { IWebSocket } from '../interfaces/common';
 import Game from '../models/game';
 import Player from '../models/player';
 import Board from '../models/board';
 import { NotFoundError } from '../common/errors';
+import { Attack } from '../common/constants';
 
 export default class GameController {
   private games: Game[];

@@ -1,4 +1,4 @@
-const enum Action {
+export const enum Action {
   PLAYER_AUTH = 'reg',
   CREATE_GAME = 'create_game',
   START_GAME = 'start_game',
@@ -14,4 +14,17 @@ const enum Action {
   ERROR = 'server_error',
 }
 
-export default Action;
+export const enum Attack {
+  MISSED = 'miss',
+  KILLED = 'killed',
+  SHOT = 'shot',
+  ERROR = 'error',
+}
+
+export const enum Square {
+  EMPTY = 0,
+  ERROR = 1,
+  OCCUPIED = 2,
+  SHOT = 3,
+  KILLED = 4,
+}

@@ -1,4 +1,4 @@
-import Action from '../common/action';
+import { Action } from '../common/constants';
 import WebSocket from 'ws';
 
 export interface IMessage {
@@ -12,4 +12,3 @@ export interface IWebSocket extends WebSocket {
   gameId: number;
   playerId: number;
 }
-

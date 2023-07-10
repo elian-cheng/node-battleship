@@ -1,4 +1,5 @@
-import { Attack, IPosition, IShip, Square } from '../interfaces/game';
+import { Attack, Square } from '../common/constants';
+import { IPosition, IShip } from '../interfaces/game';
 import Ship from './ship';
 
 export default class Board {

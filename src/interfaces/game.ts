@@ -9,6 +9,7 @@ export interface IGameState {
 export interface IRoom {
   indexRoom: number;
 }
+
 export interface IShip {
   position: {
     x: number;
@@ -22,21 +23,6 @@ export interface IShip {
 export interface IShips {
   gameId: number;
   ships: IShip[];
-}
-
-export const enum Attack {
-  MISSED = 'miss',
-  KILLED = 'killed',
-  SHOT = 'shot',
-  ERROR = 'error',
-}
-
-export const enum Square {
-  EMPTY = 0,
-  ERROR = 1,
-  OCCUPIED = 2,
-  SHOT = 3,
-  KILLED = 4,
 }
 
 export interface IPosition {

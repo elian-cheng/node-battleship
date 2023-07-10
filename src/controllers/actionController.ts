@@ -1,11 +1,11 @@
-import Action from '../common/action';
+import { Action, Attack } from '../common/constants';
 import { IWebSocket } from '../interfaces/common';
 import { IPlayerAuth } from '../interfaces/player';
 import WebSocket from 'ws';
 import PlayerController from './playerController';
 import GameController from './gameController';
 import { AddPlayerToRoomError } from '../common/errors';
-import { Attack, IAttack, IRandomAttack, IRoom, IShips } from '../interfaces/game';
+import { IAttack, IRandomAttack, IRoom, IShips } from '../interfaces/game';
 
 interface IActionControllerProps {
   playerController: PlayerController;

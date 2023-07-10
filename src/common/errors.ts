@@ -1,4 +1,4 @@
-import Action from './action';
+import { Action } from './constants';
 
 export const enum Errors {
   NOT_FOUND = 'Entity was not found',

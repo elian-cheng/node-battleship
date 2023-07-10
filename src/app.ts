@@ -2,7 +2,7 @@ import WebSocket, { WebSocketServer } from 'ws';
 import { randomUUID } from 'crypto';
 import ActionController from './controllers/actionController';
 import { IMessage, IWebSocket } from './interfaces/common';
-import Action from './common/action';
+import { Action } from './common/constants';
 import { AppError, Errors } from './common/errors';
 interface IAppProps {
   actionController: ActionController;

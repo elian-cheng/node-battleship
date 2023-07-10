@@ -1,6 +1,6 @@
-import httpServer from './httpServer/index';
+import httpServer from './server/httpServer';
 import { env } from 'process';
-import wsServer from './wsServer/index';
+import wsServer from './server/wsServer';
 
 const HTTP_PORT = Number(env.HTTP_PORT) || 8181;
 const WEBSOCKET_PORT = Number(env.WS_PORT) || 3000;

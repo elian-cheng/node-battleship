@@ -1,4 +1,5 @@
-import { Attack, IShip } from '../interfaces/game';
+import { Attack } from '../common/constants';
+import { IShip } from '../interfaces/game';
 
 export default class Ship {
   positionX: number[];
