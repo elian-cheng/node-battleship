@@ -127,15 +127,15 @@ export default class ActionController {
     if (status === Attack.ERROR) {
       return;
     }
-    // if (this.gameController.isGameOver(gameId)) {
-    //   try {
-    //     this.sendFinishGame(gameId);
-    //     this.gameController.removeGameByGameId(gameId);
-    //   } finally {
-    //     this.updateRoomsWinners();
-    //   }
-    //   return;
-    // }
+    if (this.gameController.isGameOver(gameId)) {
+      try {
+        this.finishGameRes(gameId);
+        this.gameController.deleteGame(gameId);
+      } finally {
+        this.updateRoomsWinners();
+      }
+      return;
+    }
 
     const clients = this.gameController.getWSByGameId(gameId);
 
@@ -167,15 +167,14 @@ export default class ActionController {
     this.attack(ws, { gameId, x, y, indexPlayer });
   }
 
-  // public sendFinishGame(gameId: number) {
-  //   const game = this.gameService.findGame(gameId);
-
-  //   game.players.forEach(({ ws }) => {
-  //     if (ws.readyState === WebSocket.OPEN) {
-  //       ws.send(this.createResponse(MessageType.FINISH_GAME, { winPlayer: game.winPlayerId }));
-  //     }
-  //   });
-  // }
+  public finishGameRes(gameId: number) {
+    const game = this.gameController.findGame(gameId);
+    game.players.forEach(({ ws }) => {
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.send(this.createResponse(Action.FINISH, { winPlayer: game.winner }));
+      }
+    });
+  }
 
   public responseForAll(response: string) {
     this.wsServer.clients.forEach((client) => {
@@ -194,22 +193,18 @@ export default class ActionController {
 
   public removeConnection(ws: IWebSocket) {
     console.log(`Connection removed for: ${ws.socketId}`);
-    // const { gameId, playerId } = ws;
-
-    // if (gameId) {
-    //   try {
-    //     const game = this.gameService.findGame(gameId);
-
-    //     if (game.totalPlayers() === 2) {
-    //       game.setLoserPlayerId(playerId);
-
-    //       this.sendFinishGame(gameId);
-    //     }
-
-    //     this.gameService.removeGameByGameId(gameId);
-    //   } finally {
-    //     this.sendRoomsAndWinnersStatus();
-    //   }
-    // }
+    const { gameId, playerId } = ws;
+    if (gameId) {
+      try {
+        const game = this.gameController.findGame(gameId);
+        if (game.getTotalPlayersQuantity() === 2) {
+          game.setWinnerLoser(playerId);
+          this.finishGameRes(gameId);
+        }
+        this.gameController.deleteGame(gameId);
+      } finally {
+        this.updateRoomsWinners();
+      }
+    }
   }
 }
