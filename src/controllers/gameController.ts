@@ -98,9 +98,9 @@ export default class GameController {
     return this.findGame(gameId).players.map((player) => player.ws);
   }
 
-  public getRandomBattlefield(gameId: number) {
+  public getRandomAttack(gameId: number) {
     const game = this.findGame(gameId);
     const opponentId = game.getOpponent(game.currentPlayerIdx);
-    return game.battlefield.get(opponentId)?.getRandomBattlefield() || { x: -1, y: -1 };
+    return game.battlefield.get(opponentId)?.getRandomAttackPositions() || { x: -1, y: -1 };
   }
 }

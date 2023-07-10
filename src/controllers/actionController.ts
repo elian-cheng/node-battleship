@@ -5,7 +5,7 @@ import WebSocket from 'ws';
 import PlayerController from './playerController';
 import GameController from './gameController';
 import { AddPlayerToRoomError } from '../common/errors';
-import { IRoom, IShips } from '../interfaces/game';
+import { Attack, IAttack, IRandomAttack, IRoom, IShips } from '../interfaces/game';
 
 interface IActionControllerProps {
   playerController: PlayerController;
@@ -113,6 +113,70 @@ export default class ActionController {
     }
   }
 
+  public attack(ws: IWebSocket, data: IAttack): void {
+    const { gameId, indexPlayer, x: positionX, y: positionY } = data;
+    if (!this.gameController.validatePlayerMove(gameId, ws.playerId)) {
+      return;
+    }
+    const { status, nextPlayerId } = this.gameController.attack(
+      gameId,
+      indexPlayer,
+      positionX,
+      positionY
+    );
+    if (status === Attack.ERROR) {
+      return;
+    }
+    // if (this.gameController.isGameOver(gameId)) {
+    //   try {
+    //     this.sendFinishGame(gameId);
+    //     this.gameController.removeGameByGameId(gameId);
+    //   } finally {
+    //     this.updateRoomsWinners();
+    //   }
+    //   return;
+    // }
+
+    const clients = this.gameController.getWSByGameId(gameId);
+
+    let response = this.createResponse(Action.ATTACK, {
+      position: {
+        x: positionX,
+        y: positionY,
+      },
+      currentPlayer: indexPlayer,
+      status,
+    });
+    clients.forEach((ws) => {
+      ws.send(response);
+    });
+    response = this.createResponse(Action.PLAYER_TURN, {
+      currentPlayer: nextPlayerId,
+    });
+    clients.forEach((ws) => {
+      ws.send(response);
+    });
+  }
+
+  public randomAttack(ws: IWebSocket, data: IRandomAttack) {
+    const { gameId, indexPlayer } = data;
+    const { x, y } = this.gameController.getRandomAttack(gameId);
+    if (x === -1 || y === -1) {
+      return;
+    }
+    this.attack(ws, { gameId, x, y, indexPlayer });
+  }
+
+  // public sendFinishGame(gameId: number) {
+  //   const game = this.gameService.findGame(gameId);
+
+  //   game.players.forEach(({ ws }) => {
+  //     if (ws.readyState === WebSocket.OPEN) {
+  //       ws.send(this.createResponse(MessageType.FINISH_GAME, { winPlayer: game.winPlayerId }));
+  //     }
+  //   });
+  // }
+
   public responseForAll(response: string) {
     this.wsServer.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
@@ -130,5 +194,22 @@ export default class ActionController {
 
   public removeConnection(ws: IWebSocket) {
     console.log(`Connection removed for: ${ws.socketId}`);
+    // const { gameId, playerId } = ws;
+
+    // if (gameId) {
+    //   try {
+    //     const game = this.gameService.findGame(gameId);
+
+    //     if (game.totalPlayers() === 2) {
+    //       game.setLoserPlayerId(playerId);
+
+    //       this.sendFinishGame(gameId);
+    //     }
+
+    //     this.gameService.removeGameByGameId(gameId);
+    //   } finally {
+    //     this.sendRoomsAndWinnersStatus();
+    //   }
+    // }
   }
 }

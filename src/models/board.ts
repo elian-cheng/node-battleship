@@ -53,18 +53,18 @@ export default class Board {
     return this.killedShips === this.shipsTotalQuantity;
   }
 
-  public getRandomBattlefield() {
-    const pull: IPosition[] = [];
+  public getRandomAttackPositions() {
+    const positions: IPosition[] = [];
     for (let y = 0; y < this.battlefield.length; y++) {
       for (let x = 0; x < this.battlefield.length; x++) {
         if (this.battlefield[x][y] !== Square.ERROR) {
-          pull.push({ x, y });
+          positions.push({ x, y });
         }
       }
     }
-    if (pull.length === 0) {
+    if (positions.length === 0) {
       return { x: -1, y: -1 };
     }
-    return pull[Math.floor(Math.random() * (pull.length + 1))];
+    return positions[Math.floor(Math.random() * (positions.length + 1))];
   }
 }

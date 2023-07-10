@@ -10,7 +10,7 @@ const enum Action {
   UPDATE_WINNERS = 'update_winners',
   ADD_PLAYER_TO_ROOM = 'add_user_to_room',
   ADD_SHIPS = 'add_ships',
-  RANDOM_BATTLEFIELD = 'randomAttack',
+  RANDOM_ATTACK = 'randomAttack',
   ERROR = 'server_error',
 }
 

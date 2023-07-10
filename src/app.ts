@@ -63,6 +63,14 @@ export default class App {
               this.controller.addShips(ws, data);
               break;
             }
+            case Action.ATTACK: {
+              this.controller.attack(ws, data);
+              break;
+            }
+            case Action.RANDOM_ATTACK: {
+              this.controller.randomAttack(ws, data);
+              break;
+            }
             default: {
               console.log('Action type does not exist');
               break;

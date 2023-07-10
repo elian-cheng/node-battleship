@@ -43,3 +43,15 @@ export interface IPosition {
   x: number;
   y: number;
 }
+
+export interface IAttack {
+  gameId: number;
+  indexPlayer: number;
+  x: number;
+  y: number;
+}
+
+export interface IRandomAttack {
+  gameId: number;
+  indexPlayer: number;
+}
