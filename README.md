@@ -44,3 +44,12 @@ To start the application in the production mode
 ```bash
 npm run start:prod
 ```
+
+## How to play
+
+1. When the server is started, go to the address http://localhost:8181/ in your browser
+2. Open the same address http://localhost:8181/ in another browser tab too
+3. Register with username and password in both tabs
+4. In one tab click "Create a room", in other tab you'll see the available room with a player1 already in it, click "Add to room"
+5. Then in both tabs you need to arrange your ships on the board, after you're done the game will start automatically
+6. When the game ends, you'll see the results in a table, winner and loser players.
